@@ -54,6 +54,9 @@ on:
 
 jobs:
   build-and-test:
+    permissions:
+      pull-requests: write
+      contents: read
     defaults:
       run:
         working-directory: ${{ inputs.working-directory }}
