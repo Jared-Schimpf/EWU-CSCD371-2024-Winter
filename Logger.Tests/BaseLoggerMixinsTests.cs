@@ -121,8 +121,8 @@ public class TestLogger : BaseLogger
 {
     public List<(LogLevel LogLevel, string Message)> LoggedMessages { get; } = new List<(LogLevel, string)>();
 
-    public override void Log(LogLevel logLevel, string message)
+    public override void Log(LogLevel LogLevel, string Message)
     {
-        LoggedMessages.Add((logLevel, message));
+        LoggedMessages.Add((LogLevel, Message));
     }
 }
