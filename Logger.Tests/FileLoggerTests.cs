@@ -31,8 +31,7 @@ public class FileLoggerTests
         MyFile.Close();
         _fileLogger!.ClassName = "Test";
         _fileLogger!.Log(LogLevel.Error, message);
-        //Had to subtract 1 second this might changed depending on how fast your machine is
-        DateTime dateTime = DateTime.Now.AddSeconds(-1);
+        DateTime dateTime = DateTime.Now;
         StreamReader FileReader = new(_Path);
         string MessageInFile = FileReader.ReadLine() ?? string.Empty;
         FileReader.Close();
