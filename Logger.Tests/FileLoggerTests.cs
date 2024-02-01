@@ -15,10 +15,10 @@ public class FileLoggerTests : FileLoggerTestsBase
         Assert.AreEqual(FilePath, Logger.FilePath);
     }
 
-    //[TestMethod]
-    //public async Task Log_Message_FileAppended()
-    //{
-    //    Logger.Log
-    //}
+    [TestMethod]
+    public void Log_Message_FileAppended()
+    {
+        ((IDisposable)Logger).Dispose();
+    }
 
 }

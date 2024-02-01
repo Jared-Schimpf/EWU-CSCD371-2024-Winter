@@ -7,6 +7,9 @@ namespace Logger
 {
     public interface ILogger
     {
-         void Log(LogLevel logLevel, string message);
+        string ClassName { get; set; }
+        abstract static ILogger Create(string className, string filePath);
+
+        void Log(LogLevel logLevel, string message);
     }
 }

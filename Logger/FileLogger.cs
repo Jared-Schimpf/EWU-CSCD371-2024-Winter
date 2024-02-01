@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logger;
 
-public class FileLogger : BaseLogger, ISerializable, IDisposable
+public class FileLogger : BaseLogger, ISerializable, IDisposable, ILogger
 {
     public FileLogger(string className, string filePath) : base(className)
     {
@@ -15,12 +15,30 @@ public class FileLogger : BaseLogger, ISerializable, IDisposable
         File = new FileInfo(filePath);
     }
 
+
+
     public string FilePath { get; }
     private FileInfo File { get; }
+    string ILogger.ClassName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+    void IDisposable.Dispose()
+    {
+        throw new NotImplementedException();
+    }
+
+    void Dispose()
+    {
+
+    }
 
     public override void Log(LogLevel logLevel, string message)
     {
         using StreamWriter writer = File.AppendText();
         writer.WriteLine($"{DateTime.Now}, {ClassName}, {logLevel}, {message}");
+    }
+
+    public static ILogger Create(string className, string filePath)
+    {
+        return new FileLogger(className, filePath);
     }
 }

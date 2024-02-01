@@ -5,7 +5,8 @@ using System.Text;
 
 namespace Logger
 {
-    public class Service : ILogger
+    public class Service : ILogger, IEnumerable
     {
+        List<string> thing = new();
     }
 }

@@ -7,5 +7,6 @@ namespace Logger
 {
     public interface IDisposable
     {
+        void Dispose();
     }
 }
