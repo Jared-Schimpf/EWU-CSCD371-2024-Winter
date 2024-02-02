@@ -18,18 +18,10 @@
       <FileName>BaseLogger.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Logger.Service">
-    <Position X="0.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Service.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
   <Class Name="Logger.SerializableLogger">
     <Position X="6.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAChAAEAAAAAAAAAAAAA=</HashCode>
       <FileName>SerializableLogger.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

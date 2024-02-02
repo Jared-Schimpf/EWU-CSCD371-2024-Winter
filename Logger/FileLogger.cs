@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Logger;
 
-public class FileLogger : BaseLogger, ISerializable, IDisposable, ILogger
+public class FileLogger : BaseLogger, IDisposable, ILogger
 {
     public FileLogger(string className, string filePath) : base(className)
     {
