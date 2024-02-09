@@ -19,6 +19,6 @@ public class TestLogger : BaseLogger, ILogger
 
 public class TestLoggerConfiguration : BaseLoggerConfiguration, ILoggerConfiguration
 {
-    public TestLoggerConfiguration(string logSource) : base(logSource) { }
 
+    public TestLoggerConfiguration(string logSource) : base(logSource) { }
 }
