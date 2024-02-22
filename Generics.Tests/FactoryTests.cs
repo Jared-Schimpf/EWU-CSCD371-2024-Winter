@@ -14,11 +14,12 @@ public class FactoryTests
     public void NodeTest()
     {
         // Local Function Declaration
-        void Validate(string? value) => ArgumentException.ThrowIfNullOrEmpty(value);
+        static void Validate(string? value) => ArgumentException.ThrowIfNullOrEmpty(value);
 
-        Node<string> node = new("Hello");
-
-        node.Action = Validate;
+        Node<string> node = new("Hello")
+        {
+            Action = Validate
+        };
 
         // Anonymous Function Declaration and Assignment
         //node.Action = value =>
@@ -29,7 +30,7 @@ public class FactoryTests
         //    //}
         //    ArgumentException.ThrowIfNullOrEmpty(value);
         //};
-        
+
         node.Action = value => ArgumentException.ThrowIfNullOrEmpty(value);
 
         node.Value = null!;
