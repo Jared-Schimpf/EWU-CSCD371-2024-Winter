@@ -1,6 +1,9 @@
-﻿namespace Assignment
+﻿using System;
+using System.Collections.Generic;
+
+namespace Assignment
 {
-    public class Address : IAddress
+    public record class Address : IAddress
     {
         public Address(string streetAddress, string city, string state, string zip)
         {
@@ -13,5 +16,8 @@
         public string City { get; set; }
         public string State { get; set; }
         public string Zip { get; set; }
+
+        public int CompareTo(IAddress? other) => other is null ? 1 :
+                (State, City, Zip).CompareTo((other.State, other.City, other.Zip));
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace Assignment
 {
-    public interface IAddress
+    public interface IAddress : IComparable<IAddress>
     {
         string StreetAddress { get; }
         string City { get; }
