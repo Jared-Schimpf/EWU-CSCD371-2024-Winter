@@ -71,6 +71,29 @@ public class ProgramTests
         Assert.AreEqual(expectedString, percentage);
     }
 
+    [TestMethod]
+    public void GetCorrectAnswer_ReturnsCorrectAnswer()
+    {
+
+                string filePath = Path.GetRandomFileName();
+        try
+        {
+            // Arrange
+            GenerateQuestionsFile(filePath, 1);
+
+            // Act
+            Question[] questions = Program.LoadQuestions(filePath);
+            Question question = questions[0];
+
+            // Assert 
+            Assert.AreEqual(Program.GetCorrectAnswer(question), "Answer 2" );
+        }
+        finally
+        {
+            File.Delete(filePath);
+        }
+    }
+
 
     private static void GenerateQuestionsFile(string filePath, int numberOfQuestions)
     {
