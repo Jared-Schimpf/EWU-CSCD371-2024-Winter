@@ -19,13 +19,18 @@ erroniously affect all of the entity classes that share that name.
 public record struct FullName(string First, string Last, string? Middle = ""){
     public string First {get; set;} = First ?? throw new ArgumentNullException(nameof(FullName));
     public string Last {get; set;} = Last ?? throw new ArgumentNullException(nameof(FullName));
-    public string Middle {get; set;} = Middle ?? "";
-    
-  /*  public FullName(string first, string? middle, string last){
-        First = first;
-        Middle = middle ?? "";
-        Last = last;
+
+    #pragma warning disable CS8601 // Possible null reference assignment.
+    public string Middle {get; set;} = Middle;
+    #pragma warning restore CS8601 // Possible null reference assignment.
+
+    public override string ToString(){
+        if(string.IsNullOrEmpty(Middle)){
+            return $"{First} {Last}";
+        }
+        return $"{First} {Middle} {Last}";
+
     }
-*/
+    
 
 }

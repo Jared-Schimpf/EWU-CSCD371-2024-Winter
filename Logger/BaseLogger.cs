@@ -10,9 +10,4 @@ public abstract class BaseLogger
             : logSource;
 
     public abstract void Log(LogLevel logLevel, string message);
-
-    // You can only have abstract static methods on interfaces.
-    // public abstract static ILogger CreateLogger(in ILoggerConfiguration configuration);
-
-    //^^ but a static member cannot be abstract???? Keep your story straight!
 }

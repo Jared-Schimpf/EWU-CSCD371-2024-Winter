@@ -10,6 +10,8 @@ public class FileLogger : BaseLogger, ILogger
 
     public FileLogger(FileLoggerConfiguration configuration) : this(configuration.LogSource, configuration.FilePath) {}
 
+
+    //TODO: rename logggerConfiguration, too many g's
     static ILogger ILogger.CreateLogger(in ILoggerConfiguration logggerConfiguration) => 
         logggerConfiguration is FileLoggerConfiguration configuration
             ? CreateLogger(configuration)
