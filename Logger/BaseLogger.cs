@@ -13,4 +13,6 @@ public abstract class BaseLogger
 
     // You can only have abstract static methods on interfaces.
     // public abstract static ILogger CreateLogger(in ILoggerConfiguration configuration);
+
+    //^^ but a static member cannot be abstract???? Keep your story straight!
 }
