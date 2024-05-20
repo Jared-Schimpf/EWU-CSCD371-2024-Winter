@@ -6,25 +6,27 @@ namespace CalculateTests;
 public class ProgramTests
 {
     //Write a test that sets these properties at construction time and then invokes the properties and verifies the expected behavior occurs
+
+    //the properties can no longer be changed at construction time due to Program being a static class
     [Fact]
     public void WriteLine_Set_Behavior()
     {
         StringBuilder outStream = new();
-        Program program = new(){
-            WriteLine = text => outStream.Append(text)
-        };
+        //Program program = new(){
+        Program.WriteLine = text => outStream.Append(text); //changed to match github example
+        //};
 
-        program.WriteLine("test");
+        Program.WriteLine("test");
         Assert.Equal("test", outStream.ToString());
     }
 
     [Fact]
     public void ReadLine_Set_Behavior()
     {
-        Program program = new(){
-            ReadLine = () => "test"
-        };
+        //Program program = new(){
+        Program.ReadLine = () => "test"; //changed to match github example
+        //};
 
-        Assert.Equal("test", program.ReadLine());
+        Assert.Equal("test", Program.ReadLine());
     }
 }
