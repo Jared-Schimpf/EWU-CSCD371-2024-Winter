@@ -1,6 +1,6 @@
 ﻿namespace Calculate;
 
-public static class Calculator//changed to static to match github example
+public static class Calculator
 {
 
     /*
@@ -31,10 +31,11 @@ public static class Calculator//changed to static to match github example
     Index into the MathematicalOperations method using the operator parsed during pattern matching to find the corresponding implementation and invoke it
     */
 
-    public static bool TryCalculate(string expression, out double? result){//changed to static to match github example
+    public static bool TryCalculate(string expression, out double? result){
         if(expression.Split(' ') is [string arg1Text, string operation, string arg2Text]
             && int.TryParse(arg1Text, out int arg1)
-            && int.TryParse(arg2Text, out int arg2))
+            && int.TryParse(arg2Text, out int arg2)
+            && MathOperations.ContainsKey(operation[0])) //this also isn't in the example
         {
             result = MathOperations[operation[0]](arg1, arg2);
             return true;
@@ -42,6 +43,6 @@ public static class Calculator//changed to static to match github example
         result = null;
         return false;
     }
-
+    
     
 }
