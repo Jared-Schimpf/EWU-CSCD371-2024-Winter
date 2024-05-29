@@ -13,7 +13,7 @@ namespace Assignment
             CsvRows = File.ReadAllLines("People.csv").Skip(1);
         }
         // 1.
-        public IEnumerable<string> CsvRows{get; private set;}
+        public IEnumerable<string> CsvRows{get; set;}//making set public for sake of testing
 
         // 2.
         public IEnumerable<string> GetUniqueSortedListOfStatesGivenCsvRows() 
