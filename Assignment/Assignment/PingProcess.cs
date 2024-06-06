@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Assignment;
 
-public record struct PingResult(int ExitCode, string? StdOutput);
+public record struct PingResult(int ExitCode, string? StdOutput); 
 
 public class PingProcess
 {
-    private ProcessStartInfo StartInfo { get; } = new("ping");
+    private ProcessStartInfo StartInfo { get; } = new("ping"); 
 
     public PingResult Run(string hostNameOrAddress)
     {
@@ -27,41 +27,95 @@ public class PingProcess
 
     public Task<PingResult> RunTaskAsync(string hostNameOrAddress)
     {
-        throw new NotImplementedException();
+        return RunAsync(hostNameOrAddress);
     }
+
+
+
 
     async public Task<PingResult> RunAsync(
         string hostNameOrAddress, CancellationToken cancellationToken = default)
     {
-        Task task = null!;
-        await task;
-        throw new NotImplementedException();
+        StartInfo.Arguments = hostNameOrAddress;
+        StringBuilder? stringBuilder = null;
+        
+        void updateStdOutput(string? line) =>
+            (stringBuilder??=new StringBuilder()).AppendLine(line);
+        
+        Task<PingResult> task = Task.Run(() =>
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Process process = RunProcessInternal(
+                StartInfo, updateStdOutput, default, cancellationToken);
+            return new PingResult(process.ExitCode, stringBuilder?.ToString());
+        });
+        
+        return await task.WaitAsync(cancellationToken);
     }
 
-    async public Task<PingResult> RunAsync(params string[] hostNameOrAddresses)
-    {
-        StringBuilder? stringBuilder = null;
-        ParallelQuery<Task<int>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
-        {
-            Task<PingResult> task = null!;
-            // ...
 
+    //this is the only item that wasn't already fully implemented in the solution.
+    async public Task<PingResult> RunAsync(  
+        params string[] hostNameOrAddresses)
+    {
+        //removed: StringBuilder? stringBuilder = null; //define INSIDE select, this also stops the outputs from being intermingled
+        //changed: ParallelQuery<Task<int>>? all //we dont want just the exitcode with this stringbuilder impl
+
+
+        ParallelQuery<Task<PingResult>>? all = hostNameOrAddresses.AsParallel().Select(async item =>
+        {
+            StringBuilder? stringBuilder = null;  //when created INSIDE the select statement we prevent multiple tasks from using the same stringbuilder in parallel
+            StartInfo.Arguments = item;
+
+            void updateStdOutput(string? line) => (stringBuilder??=new StringBuilder()).AppendLine(line);
+            
+            Task<PingResult> task = Task.Run(() =>
+            {
+                Process process = RunProcessInternal(
+                    StartInfo, updateStdOutput, default, default);
+                return new PingResult(process.ExitCode, stringBuilder?.ToString());
+            });
             await task.WaitAsync(default(CancellationToken));
-            return task.Result.ExitCode;
+            return task.Result; //removed .ExitCode; //we want to return the whole result
         });
 
-        await Task.WhenAll(all);
-        int total = all.Aggregate(0, (total, item) => total + item.Result);
-        return new PingResult(total, stringBuilder?.ToString());
+        PingResult[] results = await Task.WhenAll(all); //easier way of collecting the results of all tasks
+       
+        //removed: int total = all.Aggregate(0, (total, item) => total + item.Result); 
+        int total = results.Sum(result => result.ExitCode);
+        string combinedOutputs = string.Join(Environment.NewLine, results.Select(result => result.StdOutput)); //no longer have to use stringbuilder
+
+
+        return new PingResult(total, combinedOutputs);
     }
 
-    async public Task<PingResult> RunLongRunningAsync(
-        string hostNameOrAddress, CancellationToken cancellationToken = default)
+
+    public Task<PingResult> RunLongRunningAsync( 
+        string hostNameOrAddress, CancellationToken cancellationToken = default) //Essentially same as RunAsync except instead of using Task.run it uses Task factory
     {
-        Task task = null!;
-        await task;
-        throw new NotImplementedException();
+       StringBuilder? stringBuilder = null;
+        StartInfo.Arguments = hostNameOrAddress;
+        void updateStdOutput(string? line) =>
+            (stringBuilder??=new StringBuilder()).AppendLine(line);
+        return Task.Factory.StartNew(() => 
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            Process process = RunProcessInternal(
+                StartInfo, updateStdOutput, default, cancellationToken);
+            return new PingResult(process.ExitCode, stringBuilder?.ToString());
+        }, cancellationToken, TaskCreationOptions.LongRunning, TaskScheduler.Current);
     }
+
+
+
+
+
+
+
+
+
+
+
 
     private Process RunProcessInternal(
         ProcessStartInfo startInfo,
